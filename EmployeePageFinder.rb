@@ -11,17 +11,11 @@ threads = []
 @total_pages = 500 # Length of pdf file
 
 class Page
+	attr_accessor :number, :content
+	
 	def initialize(number, content)
 		@number = number
 		@content = content
-	end
-
-	def number
-		@number
-	end
-
-	def content
-		@content
 	end
 end
 
