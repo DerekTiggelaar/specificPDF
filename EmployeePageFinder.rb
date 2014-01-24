@@ -1,8 +1,9 @@
 require 'csv'
 require 'pdf-reader'
 
-pagenumber_file = File.join(File.expand_path File.dirname(__FILE__), 'theSubsetPages')
-pdf_filename = File.join(File.expand_path File.dirname(__FILE__), 'subset.pdf')
+@dir = File.expand_path File.dirname(__FILE__)
+pagenumber_file = File.join(@dir, 'theSubsetPages')
+pdf_filename = File.join(@dir, 'subset.pdf')
 @reader = PDF::Reader.new(pdf_filename)
 @mutex = Mutex.new
 threads = []
@@ -25,7 +26,7 @@ class Page
 end
 
 def find_employees
-	valid = CSV.open(File.join(File.expand_path File.dirname(__FILE__), "valid#{Thread.current['id']}.tmp"), 'wb')
+	valid = CSV.open(File.join(@dir, "valid#{Thread.current['id']}.tmp"), 'wb')
 	begin
 		while @current_page < @total_pages
 			page = read_page
@@ -55,7 +56,7 @@ def read_page
 end
 
 def combine_files(pattern, src_file)
-	temp_files = Dir.glob( File.join(File.expand_path File.dirname(__FILE__), pattern) )
+	temp_files = Dir.glob( File.join(@dir, pattern) )
 	begin 
 		open(src_file, 'w') do |file|
 			temp_files.each do |f|
